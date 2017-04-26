@@ -3,6 +3,7 @@ package it.polito.tdp.dizionario.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import it.polito.tdp.dizionario.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -11,6 +12,11 @@ import javafx.scene.control.TextField;
 
 public class DizionarioController {
 
+	private Model model;
+	public void setModel(Model model){
+		this.model = model ;
+	}
+	
 	@FXML
 	private ResourceBundle resources;
 	@FXML
@@ -30,14 +36,35 @@ public class DizionarioController {
 
 	@FXML
 	void doReset(ActionEvent event) {
-		txtResult.setText("Reset!");
+		inputNumeroLettere.clear();
+		inputParola.clear();
+		txtResult.clear();
 	}
 
+	private boolean controlGrafo = false;
 	@FXML
 	void doGeneraGrafo(ActionEvent event) {
-
 		try {
-			txtResult.setText("Controller -- TODO!");
+			btnTrovaVicini.setDisable(false);
+			btnTrovaGradoMax.setDisable(false);
+			int numerolettere =0;
+			controlGrafo = true;
+			if(inputNumeroLettere.getText().matches("[0-9]*")){
+				numerolettere = Integer.parseInt(inputNumeroLettere.getText()) ;
+			}
+			else{
+				txtResult.setText("Inserire un numero");
+				inputNumeroLettere.clear();
+			}
+
+			if(numerolettere!=0){
+				model.createGraph(numerolettere) ;
+				txtResult.setText("Caricamento avvenuto correttamente");
+			}
+			else{
+				txtResult.setText("Inserire dimensione");
+				inputNumeroLettere.clear();
+			}
 			
 		} catch (RuntimeException re) {
 			txtResult.setText(re.getMessage());
@@ -48,7 +75,15 @@ public class DizionarioController {
 	void doTrovaGradoMax(ActionEvent event) {
 		
 		try {
-			txtResult.setText("Controller -- TODO!");
+
+			if(!controlGrafo){
+				txtResult.setText("Generare prima il grafo");
+				btnTrovaVicini.setDisable(true);
+				btnTrovaGradoMax.setDisable(true);
+				return;
+			}
+			
+			txtResult.setText(model.findMaxDegree());
 
 		} catch (RuntimeException re) {
 			txtResult.setText(re.getMessage());
@@ -59,7 +94,28 @@ public class DizionarioController {
 	void doTrovaVicini(ActionEvent event) {
 		
 		try {
-			txtResult.setText("Controller -- TODO!");
+			txtResult.clear();
+			String parola = inputParola.getText() ;
+			
+			if(!controlGrafo){
+				txtResult.setText("Generare prima il grafo");
+				btnTrovaVicini.setDisable(true);
+				btnTrovaGradoMax.setDisable(true);
+				return;
+			}
+			
+			if(!parola.matches("[a-z]*")){
+				txtResult.setText("Inserire stringa di sole lettere");
+				return;
+			}
+			if(parola.length()!= Integer.parseInt(inputNumeroLettere.getText())){
+				txtResult.setText("Campi incoerenti tra di loro");
+				return;
+			}
+			
+			for(String s : model.displayNeighbours(parola)) {
+				txtResult.appendText(s+"\n");
+			}
 
 		} catch (RuntimeException re) {
 			txtResult.setText(re.getMessage());
