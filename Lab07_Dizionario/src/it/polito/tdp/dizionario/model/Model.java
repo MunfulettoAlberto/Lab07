@@ -95,29 +95,28 @@ public class Model {
 	}
 	
 	public List<String>  findAllNeighbours(String vertice){
-		List<String> neighbours = new ArrayList<String>() ;
 
-		if(!grafo.containsVertex(vertice)){
-			return null ;
-		}
-		neighbours.add(vertice);
-		this.recursive(neighbours, vertice);
+		List<String> visitati = new ArrayList<String>() ;
+		List<String> davisitare = new ArrayList<String>() ;
 		
-		return neighbours ;
-	}
-	
-	private void recursive(List<String> neighbours, String vertice){
+		davisitare.addAll(this.displayNeighbours(vertice));
+		while(davisitare.size()!=0){
+				String tmp = davisitare.remove(0);
+				visitati.add(tmp);
+				
+				for(String s : this.displayNeighbours(tmp)){
+					if(!davisitare.contains(s) && !visitati.contains(s)){
+						davisitare.add(s);
+					}
+				}
 		
-		List<String> directNeighbours = new ArrayList <String>(Graphs.neighborListOf(grafo, vertice)) ;
-	
-		for(String tmp : directNeighbours){
 			
-			if(!neighbours.contains(tmp)){
-				neighbours.add(tmp);
-				this.recursive(neighbours, tmp);
-			}
 		}
 		
+		
+	
+		return visitati ;
 	}
+	
 	
 }
