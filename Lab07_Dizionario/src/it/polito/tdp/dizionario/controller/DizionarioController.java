@@ -17,6 +17,10 @@ public class DizionarioController {
 		this.model = model ;
 	}
 	
+    @FXML
+    private Button btnAllNeighbours;
+
+	
 	@FXML
 	private ResourceBundle resources;
 	@FXML
@@ -122,6 +126,10 @@ public class DizionarioController {
 		}
 	}
 
+	 @FXML
+     void doAllNeighbours(ActionEvent event) {
+
+    }
 	@FXML
 	void initialize() {
 		assert txtResult != null : "fx:id=\"txtResult\" was not injected: check your FXML file 'Dizionario.fxml'.";
@@ -129,6 +137,7 @@ public class DizionarioController {
 		assert inputParola != null : "fx:id=\"inputParola\" was not injected: check your FXML file 'Dizionario.fxml'.";
 		assert btnGeneraGrafo != null : "fx:id=\"btnGeneraGrafo\" was not injected: check your FXML file 'Dizionario.fxml'.";
 		assert btnTrovaVicini != null : "fx:id=\"btnTrovaVicini\" was not injected: check your FXML file 'Dizionario.fxml'.";
+	    assert btnAllNeighbours != null : "fx:id=\"btnAllNeighbours\" was not injected: check your FXML file 'Dizionario.fxml'.";
 		assert btnTrovaGradoMax != null : "fx:id=\"btnTrovaTutti\" was not injected: check your FXML file 'Dizionario.fxml'.";
 	}
 }

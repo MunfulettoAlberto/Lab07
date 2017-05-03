@@ -7,6 +7,7 @@ import org.jgrapht.Graphs;
 import org.jgrapht.UndirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
+import org.jgrapht.traverse.BreadthFirstIterator;
 
 import it.polito.tdp.dizionario.db.WordDAO;
 
@@ -91,5 +92,35 @@ public class Model {
 		}
 		
 		return  v ;
+	}
+	
+//	public List<String>  findAllNeighbours(String vertice){
+//		List<String> neighbours = new ArrayList<String>() ;
+//	
+//		this.recursive(parziale, best, vertice);
+//		
+//		return null ;
+//	}
+//	
+//	private void recursive(List<String> parziale, List<String> best, String vertice){
+//		List <String> neighbours = new ArrayList<String>() ;
+//		BreadthFirstIterator<String, DefaultEdge>  bfv = new BreadthFirstIterator<>(grafo, vertice);
+//		
+//		while(bfv.hasNext()){
+//		
+//			neighbours.add(bfv.next());
+//		}
+//		
+//	}
+	
+	public List<String> findAllNeighbours (String vertice){
+		List <String> neighbours = new ArrayList<String>() ;
+		BreadthFirstIterator<String, DefaultEdge>  bfv = new BreadthFirstIterator<>(grafo, vertice);
+		
+		while(bfv.hasNext()){
+		
+			neighbours.add(bfv.next());
+		}
+		return neighbours;
 	}
 }
